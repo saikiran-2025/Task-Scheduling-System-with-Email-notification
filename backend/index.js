@@ -6,6 +6,7 @@ let cors = require("cors");
 let rt = require("./router/userrouter");  // ✅ Fixed path
 let nodemailer = require("nodemailer");  
 let app = express();
+let port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors());
@@ -33,6 +34,6 @@ mongoose.connect("mongodb://localhost:27017/task_scheduler")
 
 app.use("/", rt);
 
-app.listen(5000, () => {
+app.listen(port, () => {
   console.log("🚀 Server running on port 5000");
 });
