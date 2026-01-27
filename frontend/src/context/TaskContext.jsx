@@ -28,7 +28,7 @@ const taskReducer = (state, action) => {
 
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, { tasks: [] });
-  const API_BASE = 'http://localhost:5000';
+  const API_BASE = 'https://task-scheduling-system-with-email.onrender.com';
 
   const fetchTasks = async () => {
     try {
