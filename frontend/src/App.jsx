@@ -12,64 +12,56 @@ const TaskForm = () => {
     dueDate: '',
     email: ''
   });
-
   const { addTask } = useTasks();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // ✅ FIX: Convert local datetime → UTC ISO string
-      const localDate = new Date(formData.dueDate);
-      const utcDate = new Date(
-        localDate.getTime() - localDate.getTimezoneOffset() * 60000
-      );
-
-      await addTask({
-        ...formData,
-        dueDate: utcDate.toISOString()
-      });
-
+      await addTask(formData);
       setFormData({ title: '', description: '', dueDate: '', email: '' });
     } catch (error) {
-      alert('Error adding task: ' + (error.response?.data?.error || error.message));
+      alert('Error adding task: ' + error.response?.data?.error || error.message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="task-form">
-      <input
-        type="text"
-        placeholder="Task Title *"
-        value={formData.title}
-        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-        required
-      />
-
-      <textarea
-        placeholder="Description *"
-        value={formData.description}
-        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-        rows="3"
-        required
-      />
-
-      <input
-        type="datetime-local"
-        value={formData.dueDate}
-        onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-        required
-      />
-
-      <input
-        type="email"
-        placeholder="Email for reminders *"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        required
-      />
-
-      <button type="submit">Add Task</button>
+      <div className="form-group">
+        <input
+          type="text"
+          placeholder="Task Title *"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <textarea
+          placeholder="Description *"
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          rows="3"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <input
+          type="datetime-local"
+          value={formData.dueDate}
+          onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <input
+          type="email"
+          placeholder="Email *"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          required
+        />
+      </div>
+      <button type="submit" className="btn-add">➕ Add Task</button>
     </form>
   );
 };
@@ -77,8 +69,7 @@ const TaskForm = () => {
 const DashboardContent = () => (
   <div className="dashboard">
     <header className="app-header">
-      <h1>📋 Task Scheduler</h1>
-      <p>Manage your tasks with automatic email reminders</p>
+      <h1>📋 Task Scheduler with E-mail Notification</h1>
     </header>
     <TaskForm />
     <div className="task-sections">
