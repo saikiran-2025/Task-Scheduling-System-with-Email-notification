@@ -5,30 +5,22 @@ const TaskContext = createContext();
 
 const taskReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_TASKS':
-      return { ...state, tasks: action.payload };
-    case 'ADD_TASK':
-      return { ...state, tasks: [action.payload, ...state.tasks] };
-    case 'UPDATE_TASK':
+    case 'SET_TASKS': return { ...state, tasks: action.payload };
+    case 'ADD_TASK': return { ...state, tasks: [action.payload, ...state.tasks] };
+    case 'UPDATE_TASK': 
       return {
         ...state,
-        tasks: state.tasks.map(task => 
-          task._id === action.payload._id ? action.payload : task
-        )
+        tasks: state.tasks.map(task => task._id === action.payload._id ? action.payload : task)
       };
-    case 'DELETE_TASK':
-      return {
-        ...state,
-        tasks: state.tasks.filter(task => task._id !== action.payload)
-      };
-    default:
-      return state;
+    case 'DELETE_TASK': 
+      return { ...state, tasks: state.tasks.filter(task => task._id !== action.payload) };
+    default: return state;
   }
 };
 
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, { tasks: [] });
-  const API_BASE = 'https://task-scheduling-system-with-email.onrender.com';
+  const API_BASE = 'http://localhost:5000';
 
   const fetchTasks = async () => {
     try {
@@ -45,7 +37,6 @@ export const TaskProvider = ({ children }) => {
       dispatch({ type: 'ADD_TASK', payload: res.data.task });
       return res.data;
     } catch (error) {
-      console.error('Error adding task:', error);
       throw error;
     }
   };
@@ -56,7 +47,6 @@ export const TaskProvider = ({ children }) => {
       dispatch({ type: 'UPDATE_TASK', payload: res.data.task });
       return res.data;
     } catch (error) {
-      console.error('Error updating task:', error);
       throw error;
     }
   };
@@ -66,7 +56,6 @@ export const TaskProvider = ({ children }) => {
       await axios.delete(`${API_BASE}/task/${id}`);
       dispatch({ type: 'DELETE_TASK', payload: id });
     } catch (error) {
-      console.error('Error deleting task:', error);
       throw error;
     }
   };
@@ -76,13 +65,7 @@ export const TaskProvider = ({ children }) => {
   }, []);
 
   return (
-    <TaskContext.Provider value={{
-      tasks: state.tasks,
-      addTask,
-      updateTask,
-      deleteTask,
-      fetchTasks
-    }}>
+    <TaskContext.Provider value={{ tasks: state.tasks, addTask, updateTask, deleteTask, fetchTasks }}>
       {children}
     </TaskContext.Provider>
   );
@@ -90,8 +73,6 @@ export const TaskProvider = ({ children }) => {
 
 export const useTasks = () => {
   const context = useContext(TaskContext);
-  if (!context) {
-    throw new Error('useTasks must be used within TaskProvider');
-  }
+  if (!context) throw new Error('useTasks must be used within TaskProvider');
   return context;
 };
