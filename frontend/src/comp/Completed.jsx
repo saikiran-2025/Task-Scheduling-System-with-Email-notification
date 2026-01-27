@@ -5,6 +5,21 @@ const Completed = () => {
   const { tasks } = useTasks();
   const completedTasks = tasks.filter(task => task.status === 'completed');
 
+  const formatForDisplay = (dateString) => {
+    if (!dateString) return 'Invalid date';
+    const date = new Date(dateString);
+    return date.toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   return (
     <div className="task-section">
       <h3>Completed Tasks ({completedTasks.length})</h3>
@@ -14,12 +29,12 @@ const Completed = () => {
         <div className="task-list">
           {completedTasks.map(task => (
             <div key={task._id} className="task-card completed">
-              <p><strong>Title:</strong> {task.title}</p>
-              <div className="task-details">
-                <p><strong>Description:</strong> {task.description}</p>
-                <p className="due-date"><strong>Due:</strong> {new Date(task.dueDate).toLocaleString()}</p>
+              <div className="task-content">
+                <h4>{task.title}</h4>
+                <p>{task.description}</p>
+                <p><strong>Due (IST):</strong> {formatForDisplay(task.dueDate)}</p>
                 <p><strong>Email:</strong> {task.email}</p>
-                <p><strong>Status:</strong> completed</p>
+                <span className="status-badge completed">✅ Completed</span>
               </div>
             </div>
           ))}
