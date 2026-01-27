@@ -4,11 +4,25 @@ import { useTasks } from '../context/TaskContext.jsx';
 const MissedTasks = () => {
   const { tasks } = useTasks();
   const now = new Date();
-
   const missedTasks = tasks.filter(task => 
-    task.status === 'missed' || 
-    (task.status === 'upcoming' && new Date(task.dueDate) < now)
+    (task.status === 'missed' || task.status === 'incompleted') && 
+    new Date(task.dueDate) < now
   );
+
+  const formatForDisplay = (dateString) => {
+    if (!dateString) return 'Invalid date';
+    const date = new Date(dateString);
+    return date.toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
 
   return (
     <div className="task-section">
@@ -19,12 +33,12 @@ const MissedTasks = () => {
         <div className="task-list">
           {missedTasks.map(task => (
             <div key={task._id} className="task-card missed">
-              <p><strong>Title:</strong> {task.title}</p>
-              <div className="task-details">
-                <p><strong>Description:</strong> {task.description}</p>
-                <p className="due-date"><strong>Due:</strong> {new Date(task.dueDate).toLocaleString()}</p>
+              <div className="task-content">
+                <h4>{task.title}</h4>
+                <p>{task.description}</p>
+                <p><strong>Due (IST):</strong> {formatForDisplay(task.dueDate)}</p>
                 <p><strong>Email:</strong> {task.email}</p>
-                <p><strong>Status:</strong> Incompleted</p>
+                <span className="status-badge missed">📋 Missed</span>
               </div>
             </div>
           ))}
