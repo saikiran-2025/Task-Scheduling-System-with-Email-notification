@@ -1,6 +1,4 @@
-/* App.css */
-
-/* Reset and base styles */
+/* ========== RESET & BASE ========== */
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +6,8 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background-color: #f3f5f9;
   color: #333;
   line-height: 1.6;
 }
@@ -20,322 +18,316 @@ body {
   padding: 20px;
 }
 
-/* Dashboard styles */
+/* ========== DASHBOARD ========== */
 .dashboard {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Header styles */
+/* ========== HEADER ========== */
 .app-header {
   text-align: center;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #007bff, #0056b3);
   color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 24px 16px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .app-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 2.3rem;
+  margin-bottom: 8px;
 }
 
 .app-header p {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
+  opacity: 0.95;
 }
 
-/* Task form styles */
+/* ========== FORM ========== */
 .task-form {
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
 .task-form input,
 .task-form textarea {
-  padding: 10px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
 }
 
 .task-form textarea {
   resize: vertical;
+  min-height: 70px;
+}
+
+.task-form input[type="datetime-local"],
+.task-form textarea {
+  grid-column: span 2;
+}
+
+.task-form input[type="email"] {
+  grid-column: span 2;
 }
 
 .task-form button {
+  grid-column: span 2;
   padding: 12px;
-  background-color: #28a745;
+  background: linear-gradient(135deg, #28a745, #1e7e34);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .task-form button:hover {
-  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
 }
 
-/* Task sections styles */
+/* ========== SECTIONS GRID ========== */
 .task-sections {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
-/* Styles for each task section (Upcoming, Completed, MissedTasks) */
+/* ========== TASK SECTION ========== */
 .task-section {
   background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
 }
 
-.task-section h2 {
-  margin-bottom: 15px;
+.task-section h3 {
+  margin-bottom: 14px;
   color: #007bff;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  border-bottom: 2px solid #eef2f8;
+  padding-bottom: 6px;
 }
 
-/* Task list styles (assuming each section has a list of tasks) */
+/* ========== TASK LIST ========== */
 .task-list {
-  list-style: none;
-  padding: 0;
-}
-
-.task-item {
-  background-color: #f9f9f9;
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 4px;
-  border-left: 4px solid #007bff;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.task-item.completed {
+.no-tasks {
+  text-align: center;
+  color: #888;
+  font-size: 0.95rem;
+}
+
+/* ========== TASK CARD ========== */
+.task-card {
+  background-color: #f9fbff;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border-left: 5px solid #007bff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.task-card.upcoming {
+  border-left-color: #007bff;
+}
+
+.task-card.completed {
   border-left-color: #28a745;
-  background-color: #e9f7ef;
+  background-color: #ecf9f1;
 }
 
-.task-item.missed {
+.task-card.missed {
   border-left-color: #dc3545;
-  background-color: #f8d7da;
+  background-color: #fdecee;
 }
 
-.task-item h3 {
-  margin: 0;
-  font-size: 1.1rem;
+.task-content p {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
 }
 
-.task-item p {
-  margin: 5px 0;
-  color: #666;
+.task-details {
+  margin-top: 6px;
 }
 
-.task-item .due-date {
-  font-weight: bold;
+.due-date {
+  font-weight: 600;
   color: #007bff;
 }
 
-/* Buttons container for edit and delete to add space between them */
-.task-item .buttons {
+/* ========== TASK ACTIONS ========== */
+.task-actions {
   display: flex;
-  gap: 10px; /* Space between edit and delete buttons */
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.task-item button {
-  background-color: #dc3545;
-  color: white;
+.task-actions button {
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 6px 10px;
   cursor: pointer;
   font-size: 0.9rem;
-  transition: background-color 0.3s;
+  transition: background 0.2s, transform 0.2s;
 }
 
-.task-item button:hover {
-  background-color: #c82333;
-}
-
-/* Assuming edit button has a different style, e.g., for edit */
-.task-item button.edit {
+.task-actions .btn-edit {
   background-color: #ffc107;
-  color: #212529;
+  color: #222;
 }
 
-.task-item button.edit:hover {
+.task-actions .btn-edit:hover {
   background-color: #e0a800;
 }
 
-/* Responsive design */
+.task-actions .btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.task-actions .btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* ========== EDIT FORM ========== */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.edit-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.status-select {
+  cursor: pointer;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-save {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* Small laptops */
 @media (max-width: 1024px) {
-  .App {
-    padding: 15px;
-  }
-  
   .task-sections {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-  }
-  
-  .task-section {
-    padding: 15px;
-  }
-  
-  .task-item {
-    padding: 12px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
-  .task-item h3 {
-    font-size: 1rem;
-  }
-  
-  .task-item p {
-    font-size: 0.9rem;
-  }
-  
-  .task-item .buttons {
-    gap: 8px;
-  }
-  
-  .task-item button {
-    padding: 4px 8px;
-    font-size: 0.8rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Tablets */
 @media (max-width: 768px) {
   .App {
-    padding: 10px;
+    padding: 14px;
   }
-  
-  .dashboard {
-    gap: 15px;
-  }
-  
-  .app-header {
-    padding: 15px;
-  }
-  
+
   .app-header h1 {
     font-size: 2rem;
   }
-  
-  .app-header p {
-    font-size: 1rem;
-  }
-  
+
   .task-form {
-    max-width: 100%;
-    padding: 15px;
+    grid-template-columns: 1fr;
   }
-  
+
+  .task-form input,
+  .task-form textarea,
+  .task-form button {
+    grid-column: span 1;
+  }
+
   .task-sections {
     grid-template-columns: 1fr;
-    gap: 15px;
   }
-  
-  .task-section {
-    padding: 15px;
-  }
-  
-  .task-section h2 {
-    font-size: 1.3rem;
-  }
-  
-  .task-item {
-    padding: 10px;
-    margin-bottom: 8px;
-  }
-  
-  .task-item .buttons {
-    gap: 6px;
-  }
-  
-  .task-item button {
-    padding: 5px 7px;
-    font-size: 0.8rem;
+
+  .task-actions {
+    justify-content: space-between;
   }
 }
 
+/* Phones */
 @media (max-width: 480px) {
   .App {
-    padding: 5px;
-  }
-  
-  .app-header {
     padding: 10px;
   }
-  
+
   .app-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
-  
+
   .app-header p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
-  
+
   .task-form {
-    padding: 10px;
-    gap: 10px;
+    padding: 14px;
   }
-  
+
   .task-form input,
   .task-form textarea {
-    padding: 8px;
     font-size: 0.9rem;
   }
-  
-  .task-form button {
-    padding: 10px;
+
+  .task-card {
+    padding: 12px;
+  }
+
+  .task-content p {
     font-size: 0.9rem;
   }
-  
-  .task-section {
-    padding: 10px;
-  }
-  
-  .task-section h2 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-  
-  .task-item {
-    padding: 8px;
-    margin-bottom: 5px;
-  }
-  
-  .task-item h3 {
-    font-size: 1rem;
-  }
-  
-  .task-item p {
+
+  .task-actions button {
     font-size: 0.8rem;
-    margin: 3px 0;
-  }
-  
-  .task-item .buttons {
-    gap: 5px;
-  }
-  
-  .task-item button {
-    padding: 4px 6px;
-    font-size: 0.7rem;
+    padding: 6px 8px;
   }
 }
