@@ -5,7 +5,6 @@ import Completed from './comp/Completed.jsx';
 import MissedTasks from './comp/MissedTasks.jsx';
 import './App.css';
 
-// ✅ FIXED: TaskForm uses useTasks() - MUST be inside TaskProvider
 const TaskForm = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -13,12 +12,24 @@ const TaskForm = () => {
     dueDate: '',
     email: ''
   });
-  const { addTask } = useTasks();  // ✅ Now works - inside TaskProvider
+
+  const { addTask } = useTasks();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      await addTask(formData);
+      // ✅ FIX: Convert local datetime → UTC ISO string
+      const localDate = new Date(formData.dueDate);
+      const utcDate = new Date(
+        localDate.getTime() - localDate.getTimezoneOffset() * 60000
+      );
+
+      await addTask({
+        ...formData,
+        dueDate: utcDate.toISOString()
+      });
+
       setFormData({ title: '', description: '', dueDate: '', email: '' });
     } catch (error) {
       alert('Error adding task: ' + (error.response?.data?.error || error.message));
@@ -34,6 +45,7 @@ const TaskForm = () => {
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         required
       />
+
       <textarea
         placeholder="Description *"
         value={formData.description}
@@ -41,12 +53,14 @@ const TaskForm = () => {
         rows="3"
         required
       />
+
       <input
         type="datetime-local"
         value={formData.dueDate}
         onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
         required
       />
+
       <input
         type="email"
         placeholder="Email for reminders *"
@@ -54,12 +68,12 @@ const TaskForm = () => {
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         required
       />
+
       <button type="submit">Add Task</button>
     </form>
   );
 };
 
-// ✅ FIXED: Dashboard renders TaskForm inside TaskProvider
 const DashboardContent = () => (
   <div className="dashboard">
     <header className="app-header">
