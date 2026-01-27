@@ -14,14 +14,12 @@ const Completed = () => {
         <div className="task-list">
           {completedTasks.map(task => (
             <div key={task._id} className="task-card completed">
-              {/* ✅ Single title - ONE TIME ONLY */}
               <p><strong>Title:</strong> {task.title}</p>
-              
               <div className="task-details">
                 <p><strong>Description:</strong> {task.description}</p>
                 <p className="due-date"><strong>Due:</strong> {new Date(task.dueDate).toLocaleString()}</p>
                 <p><strong>Email:</strong> {task.email}</p>
-                <p className="status-completed"><strong>Status:</strong> completed</p>
+                <p><strong>Status:</strong> completed</p>
               </div>
             </div>
           ))}
