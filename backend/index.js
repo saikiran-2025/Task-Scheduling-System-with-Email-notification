@@ -1,23 +1,26 @@
-require('dotenv').config();  
-
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const rt = require("./router/userrouter");
+const router = require("./router/userrouter");
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(express.json());
-app.use(cors());
+// IST Timezone middleware
+process.env.TZ = 'Asia/Kolkata';
 
-// MongoDB Atlas connection (Render safe)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: '*', credentials: true }));
+
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ DB connected"))
-  .catch(err => console.log("❌ DB connection error", err));
+  .then(() => console.log("✅ DB connected - IST"))
+  .catch(err => console.log("❌ DB connection error:", err));
 
-app.use("/", rt);
+app.use("/", router);
 
 app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
+  console.log(`🚀 Server running on port ${port} - IST`);
 });
+
