@@ -6,7 +6,7 @@ const taskSchema = new mongoose.Schema({
   dueDate: { type: Date, required: true },
   status: { 
     type: String, 
-    enum: ['upcoming', 'completed', 'incompleted', 'missed'], // ✅ FIX
+    enum: ['upcoming', 'completed', 'incompleted', 'missed'],
     default: 'upcoming' 
   },
   email: { type: String, required: true },
