@@ -1,11 +1,12 @@
-let express = require("express");
-let { createTask, getAllTasks, getTaskById, updateTask, deleteTask } = require("../controllers/usercont");
-let rt = new express.Router();
+const express = require("express");
+const { createTask, getAllTasks, getTaskById, updateTask, deleteTask } = require("../controllers/usercont");
 
-rt.post("/addtask", createTask);
-rt.get("/tasks", getAllTasks);
-rt.get("/task/:id", getTaskById);
-rt.put("/task/:id", updateTask);
-rt.delete("/task/:id", deleteTask);
+const router = express.Router();
 
-module.exports = rt;
+router.post("/addtask", createTask);
+router.get("/tasks", getAllTasks);
+router.get("/task/:id", getTaskById);
+router.put("/task/:id", updateTask);
+router.delete("/task/:id", deleteTask);
+
+module.exports = router;
