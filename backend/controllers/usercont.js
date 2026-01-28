@@ -4,10 +4,12 @@ const cron = require('node-cron');
 
 // ✅ GMAIL TRANSPORTER (Add to .env)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.sendgrid.net",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,     // saikirangundapu2003@gmail.com
-    pass: process.env.EMAIL_PASS      // Gmail App Password (16 chars)
+    user: "apikey",
+    pass: process.env.SENDGRID_API_KEY
   }
 });
 
@@ -29,7 +31,7 @@ const sendTaskAssignedEmail = async (task) => {
   });
   
   await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_FROM,
     to: task.email,
     subject: `📋 NEW TASK ASSIGNED: ${task.title}`,
     html: `
@@ -64,7 +66,7 @@ const send1HourWarningEmail = async (task) => {
   
   const dueDateIST = new Date(task.dueDate).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
   await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_FROM,
     to: task.email,
     subject: `⚠️ 1 HOUR LEFT: ${task.title}`,
     html: `
@@ -88,7 +90,7 @@ const send30MinWarningEmail = async (task) => {
   
   const dueDateIST = new Date(task.dueDate).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
   await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_FROM,
     to: task.email,
     subject: `🚨 30 MINS LEFT: ${task.title} - URGENT!`,
     html: `
@@ -110,7 +112,7 @@ const send30MinWarningEmail = async (task) => {
 const sendTaskCompletedEmail = async (task) => {
   const dueDateIST = new Date(task.dueDate).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
   await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_FROM,
     to: task.email,
     subject: `✅ ${task.title} - COMPLETED!`,
     html: `
